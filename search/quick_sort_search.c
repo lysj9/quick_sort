@@ -5,7 +5,7 @@
 
 //#define NN 10
 //#define MAX_DEPTH 11
-int NN=15;
+int NN=20;
 int MAX_DEPTH=11;
 
 #ifdef _SHOW_STACK_LEVEL_

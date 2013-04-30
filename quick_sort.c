@@ -3,8 +3,8 @@
 #include <math.h>
 #include <omp.h>
 
-#define NN 15
-#define MAX_DEPTH 12
+#define NN 20
+#define MAX_DEPTH 17
 
 #define SWAP(a,b,type) \
 ({\
