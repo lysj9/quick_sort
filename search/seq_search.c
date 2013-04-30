@@ -5,7 +5,8 @@
 #include <omp.h>
 #include <sys/time.h>
 
-void quick_sort_seq(double *a, int n, int nmax);
+void quick_sort_seq1(double *a, int n, int nmax);
+void quick_sort_seq2(double *a, int n, int nmax);
 void randomz_seed(int seed);
 double randomz_dbl();
 
@@ -28,7 +29,7 @@ int main()
 //	double tomp0,tomp1;
 	int max_depth=10;
 	int nmax=10;
-	for (nmax=1;nmax<31;++nmax){
+	for (nmax=1;nmax<51;++nmax){
 	for (i=0;i<n;++i) a[i]=b[i];
 //#ifdef _OPENMP
 //	tomp0=omp_get_wtime();
@@ -36,10 +37,7 @@ int main()
 //	tc0 = clock();
 //#endif
 	gettimeofday(&t0,NULL);
-
-	quick_sort_seq(a,n,nmax);
-//	quick_sort_search(a,n);
-
+	quick_sort_seq1(a,n,nmax);
 	gettimeofday(&t1,NULL);
 	tns = (t1.tv_sec-t0.tv_sec)*1000000LL + (t1.tv_usec-t0.tv_usec);
 	t_cost = tns*1e-3;
@@ -50,7 +48,16 @@ int main()
 //	tc1 = clock();
 //	t_cost = (double) (tc1-tc0)/CLOCKS_PER_SEC;
 //#endif
-	printf("nmax=%d, use %lld ns, %lf ms...\n",nmax,tns,t_cost);
+	printf("loop:       nmax=%d, use %lld ns, %lf ms...\n",nmax,tns,t_cost);
+
+	for (i=0;i<n;++i) a[i]=b[i];
+	gettimeofday(&t0,NULL);
+	quick_sort_seq2(a,n,nmax);
+	gettimeofday(&t1,NULL);
+	tns = (t1.tv_sec-t0.tv_sec)*1000000LL + (t1.tv_usec-t0.tv_usec);
+	t_cost = tns*1e-3;
+	printf("recuresive: nmax=%d, use %lld ns, %lf ms...\n",nmax,tns,t_cost);
+	printf("\n");
 	}
 	for (i=0;i<n-1;++i){
 		if (a[i]>a[i+1]){

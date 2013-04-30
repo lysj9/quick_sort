@@ -31,7 +31,7 @@ int level=0;
 /*
  * 采用递归方式，数组大小小于NN时采用冒泡排序
  */
-quick_sort_search2(double *a, int l, int r)
+quick_sort_recursive(double *a, int l, int r)
 {
 	int i,j;
 	int k;
@@ -89,15 +89,15 @@ quick_sort_search2(double *a, int l, int r)
 		 * numerical recipe 方法
 		 */
 
-		quick_sort_search2(a,l,j-1);
-		quick_sort_search2(a,j+1,r);
+		quick_sort_recursive(a,l,j-1);
+		quick_sort_recursive(a,j+1,r);
 	}
 }
 
 /*
  * 采用循环方式，数组大小小于NN时采用冒泡排序
  */
-void quick_sort_search(double *a, int n)
+void quick_sort_loop(double *a, int n)
 {
 	int i,j,k,l=0,r=n-1;
 	double temp,a0;
@@ -172,11 +172,16 @@ void quick_sort_search(double *a, int n)
 	return;
 }
 
-void quick_sort_seq(double *a, int n, int nmax)
+void quick_sort_seq1(double *a, int n, int nmax)
 {
 	NN = nmax > 2 ? nmax : 2;
-	quick_sort_search(a,n);
-//	quick_sort_search2(a,0,n-1);
+	quick_sort_loop(a,n);
+}
+
+void quick_sort_seq2(double *a, int n, int nmax)
+{
+	NN = nmax > 2 ? nmax : 2;
+	quick_sort_recursive(a,0,n-1);
 }
 
 /* 

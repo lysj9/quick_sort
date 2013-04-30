@@ -11,7 +11,7 @@ double randomz_dbl();
 
 int main()
 {
-	int n=10000000;
+	int n=100000000;
 	double *a,*b;
 	a=(double*) malloc(n*sizeof(double));
 	b=(double*) malloc(n*sizeof(double));
@@ -29,7 +29,7 @@ int main()
 	int max_depth=10;
 	int nmax=10;
 
-	for (max_depth=0;max_depth<21;++max_depth){
+	for (max_depth=0;max_depth<41;++max_depth){
 	for (i=0;i<n;++i) a[i]=b[i];
 //#ifdef _OPENMP
 //	tomp0=omp_get_wtime();

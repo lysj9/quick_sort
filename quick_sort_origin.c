@@ -3,14 +3,8 @@
 #include <math.h>
 #include <omp.h>
 
-//#define NN 10
-//#define MAX_DEPTH 11
-int NN=10;
-int MAX_DEPTH=11;
-
-#ifdef _SHOW_STACK_LEVEL_
-int level=0;
-#endif
+#define NN 15
+#define MAX_DEPTH 13
 
 #define SWAP(a,b,type) \
 ({\
@@ -31,7 +25,7 @@ int level=0;
 /*
  * 采用递归方式，数组大小小于NN时采用冒泡排序
  */
-quick_sort_search2(double *a, int l, int r)
+quick_sort_recursive(double *a, int l, int r)
 {
 	int i,j;
 	int k;
@@ -89,15 +83,15 @@ quick_sort_search2(double *a, int l, int r)
 		 * numerical recipe 方法
 		 */
 
-		quick_sort_search2(a,l,j-1);
-		quick_sort_search2(a,j+1,r);
+		quick_sort_recursive(a,l,j-1);
+		quick_sort_recursive(a,j+1,r);
 	}
 }
 
 /*
  * 采用循环方式，数组大小小于NN时采用冒泡排序
  */
-void quick_sort_search(double *a, int n)
+void quick_sort_loop(double *a, int n)
 {
 	int i,j,k,l=0,r=n-1;
 	double temp,a0;
@@ -172,17 +166,17 @@ void quick_sort_search(double *a, int n)
 	return;
 }
 
-void quick_sort_seq(double *a, int n, int nmax)
+quick_sort_seq(double *a, int n)
 {
-	NN = nmax > 2 ? nmax : 2;
-	quick_sort_search(a,n);
-//	quick_sort_search2(a,0,n-1);
+	quick_sort_loop(a,n);
+//	quick_sort_recursive(a,0,n-1);
 }
 
 /* 
  * qs0 即快速排序法的完全递归版本
  * 采用（子）数组的中间元素作为枢
  */
+/*
 static
 qs0(double *a, int l, int r, int depth)
 {
@@ -216,6 +210,7 @@ qs0(double *a, int l, int r, int depth)
 		}
 	}
 }
+*/
 
 /* 
  * qs 在数组较小时采用冒泡排序
@@ -294,21 +289,13 @@ qs(double *a, int l, int r, int depth)
 		qs(a,j+1,r,depth);
 		}
 	}
-#ifdef _SHOW_STACK_LEVEL_
-	if (level>depth) {
-		level=depth;
-	}
-#endif
 }
 
-void quick_sort_omp(double *a, int n, int max_depth)
+void quick_sort_omp(double *a, int n)
 {
 #pragma omp parallel
 	{
 #pragma omp single nowait
-	qs(a,0,n-1,max_depth);
+	qs(a,0,n-1,MAX_DEPTH);
 	}
-#ifdef _SHOW_STACK_LEVEL_
-	printf("level=%d\n",level);
-#endif
 }
