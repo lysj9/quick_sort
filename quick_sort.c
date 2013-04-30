@@ -4,7 +4,7 @@
 #include <omp.h>
 
 #define NN 15
-#define MAX_DEPTH 13
+#define MAX_DEPTH 12
 
 #define SWAP(a,b,type) \
 ({\

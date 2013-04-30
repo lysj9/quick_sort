@@ -11,7 +11,7 @@ double randomz_dbl();
 
 int main()
 {
-	int n=100000000;
+	int n=10000000;
 	double *a,*b;
 	a=(double*) malloc(n*sizeof(double));
 	b=(double*) malloc(n*sizeof(double));
