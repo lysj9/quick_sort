@@ -281,12 +281,14 @@ qs(double *a, int l, int r, int depth)
 		depth--;
 		if (depth>0){
 #pragma omp task
-		qs(a,l,j-1,depth);
+			qs(a,l,j-1,depth);
 #pragma omp task
-		qs(a,j+1,r,depth);
+			qs(a,j+1,r,depth);
 		} else {
-		qs(a,l,j-1,depth);
-		qs(a,j+1,r,depth);
+			quick_sort_loop(a+l,j-l);
+			quick_sort_loop(a+j+1,r-j);
+//			qs(a,l,j-1,depth);
+//			qs(a,j+1,r,depth);
 		}
 	}
 }
