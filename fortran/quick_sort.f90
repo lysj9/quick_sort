@@ -500,6 +500,8 @@ Module mod_sort
 
 !		depth=depth-1
 		if (depth>0) then
+			! 与c不同，Fortran中数组是整体传值，
+			! 必须显式的标明a是shared，否则不同线程之间a会相互覆盖
 			!$OMP TASK SHARED(a)
 			call qs_noidx(a,n,l,j-1,depth-1)
 			!$OMP END TASK
