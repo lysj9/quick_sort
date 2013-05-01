@@ -31,29 +31,51 @@ Program main
 
 	do nmax=10,10
 
-	! no index
+	! seq, no index
 	call set_param(20,nmax)
 	a=b
 	call system_clock(c0)
-	call quick_sort(a,n,1)
+	call quick_sort(a,n,0)
 !	call quick_sort_noidx(a,n,1)
 !	call quick_sort_noidx_omp(a,n)
 	call system_clock(c1)
 	t_cost = dble(c1-c0)/(count_rate)
-	write (*,'("no-idx:   max_depth=",I3,", use ",F15.6," ms...")') &
+	write (*,'("seq, no-idx:   max_depth=",I3,", use ",F15.6," ms...")') &
 		nmax,t_cost*1000
-	! no index
+	! seq, with index
 !	call set_param(20,nmax)
 	a=b
 	do i=1,n
 		idx(i)=i
 	end do
 	call system_clock(c0,count_rate)
-	call quick_sort(a,idx,n)
+	call quick_sort(a,idx,n,0)
 !	call quick_sort_widx(a,idx,n)
 	call system_clock(c1)
 	t_cost = dble(c1-c0)/(count_rate)
-	write (*,'("with-idx: max_depth=",I3,", use ",F15.6," ms...")') &
+	write (*,'("seq, with-idx: max_depth=",I3,", use ",F15.6," ms...")') &
+		nmax,t_cost*1000
+	! omp, no index
+	a=b
+	call system_clock(c0)
+	call quick_sort(a,n,1)
+!	call quick_sort_noidx_omp(a,n)
+	call system_clock(c1)
+	t_cost = dble(c1-c0)/(count_rate)
+	write (*,'("omp, no-idx:   max_depth=",I3,", use ",F15.6," ms...")') &
+		nmax,t_cost*1000
+	! omp, with index
+!	call set_param(20,nmax)
+	a=b
+	do i=1,n
+		idx(i)=i
+	end do
+	call system_clock(c0,count_rate)
+	call quick_sort(a,idx,n,1)
+!	call quick_sort_widx(a,idx,n)
+	call system_clock(c1)
+	t_cost = dble(c1-c0)/(count_rate)
+	write (*,'("omp, with-idx: max_depth=",I3,", use ",F15.6," ms...")') &
 		nmax,t_cost*1000
 	write (*,*) ' '
 
