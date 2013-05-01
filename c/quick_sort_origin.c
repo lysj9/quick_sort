@@ -27,7 +27,7 @@
 /*
  * 采用递归方式，数组大小小于NN时采用冒泡排序
  */
-void quick_sort_recursive(double *a, int l, int r)
+void quick_sort_noidx_recursive(double *a, int l, int r)
 {
 	int i,j;
 	double a0;
@@ -85,8 +85,8 @@ void quick_sort_recursive(double *a, int l, int r)
 		 * numerical recipe 方法
 		 */
 
-		quick_sort_recursive(a,l,j-1);
-		quick_sort_recursive(a,j+1,r);
+		quick_sort_noidx_recursive(a,l,j-1);
+		quick_sort_noidx_recursive(a,j+1,r);
 	}
 }
 
@@ -173,7 +173,7 @@ void quick_sort_widx_recursive(double *a, int *idx, int l, int r)
 /*
  * 采用循环方式，数组大小小于NN时采用冒泡排序
  */
-void quick_sort_loop(double *a, int n)
+void quick_sort_noidx_loop(double *a, int n)
 {
 	int i,j;
 	int l=0,r=n-1;
@@ -312,10 +312,10 @@ void quick_sort_widx_loop(double *a, int *idx, int n)
 	return;
 }
 
-void quick_sort_seq(double *a, int n)
+void quick_sort_noidx_seq(double *a, int n)
 {
-	quick_sort_loop(a,n);
-//	quick_sort_recursive(a,0,n-1);
+	quick_sort_noidx_loop(a,n);
+//	quick_sort_noidx_recursive(a,0,n-1);
 }
 
 void quick_sort_widx_seq(double *a, int *idx, int n)
@@ -372,7 +372,7 @@ void qs0(double *a, int l, int r, int depth)
  * 但其中区别暂不明
  */
 //static
-void qs(double *a, int l, int r, int depth)
+void qs_noidx(double *a, int l, int r, int depth)
 {
 	int i,j;
 	double a0;
@@ -433,14 +433,14 @@ void qs(double *a, int l, int r, int depth)
 		depth--;
 		if (depth>0){
 #pragma omp task
-			qs(a,l,j-1,depth);
+			qs_noidx(a,l,j-1,depth);
 #pragma omp task
-			qs(a,j+1,r,depth);
+			qs_noidx(a,j+1,r,depth);
 		} else {
-			quick_sort_loop(a+l,j-l);
-			quick_sort_loop(a+j+1,r-j);
-//			qs(a,l,j-1,depth);
-//			qs(a,j+1,r,depth);
+			quick_sort_noidx_loop(a+l,j-l);
+			quick_sort_noidx_loop(a+j+1,r-j);
+//			qs_noidx(a,l,j-1,depth);
+//			qs_noidx(a,j+1,r,depth);
 		}
 	}
 }
@@ -519,12 +519,12 @@ void qs_widx(double *a, int *idx, int l, int r, int depth)
 	}
 }
 
-void quick_sort_omp(double *a, int n)
+void quick_sort_noidx_omp(double *a, int n)
 {
 #pragma omp parallel
 	{
 #pragma omp single nowait
-	qs(a,0,n-1,MAX_DEPTH);
+	qs_noidx(a,0,n-1,MAX_DEPTH);
 	}
 }
 

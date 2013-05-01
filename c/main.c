@@ -5,9 +5,9 @@
 #include <omp.h>
 #include <sys/time.h>
 
-void quick_sort_seq(double *a, int n);
+void quick_sort_noidx_seq(double *a, int n);
 void quick_sort_widx_seq(double *a, int *idx, int n);
-void quick_sort_omp(double *a, int n);
+void quick_sort_noidx_omp(double *a, int n);
 void quick_sort_widx_omp(double *a, int *idx, int n);
 void randomz_seed(int seed);
 double randomz_dbl();
@@ -51,7 +51,7 @@ int main()
 		a[i]=b[i];
 	}
 	gettimeofday(&t0,NULL);
-	quick_sort_seq(a,nmax);
+	quick_sort_noidx_seq(a,nmax);
 	gettimeofday(&t1,NULL);
 	tns = (t1.tv_sec-t0.tv_sec)*1000000LL + (t1.tv_usec-t0.tv_usec);
 	t_cost = tns*1e-3;
@@ -72,7 +72,7 @@ int main()
 		a[i]=b[i];
 	}
 	gettimeofday(&t0,NULL);
-	quick_sort_omp(a,nmax);
+	quick_sort_noidx_omp(a,nmax);
 	gettimeofday(&t1,NULL);
 	tns = (t1.tv_sec-t0.tv_sec)*1000000LL + (t1.tv_usec-t0.tv_usec);
 	t_cost = tns*1e-3;
